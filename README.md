@@ -7,6 +7,7 @@ https://github.com/NVIDIA-AI-IOT/torch2trt
 ## 3. 下载本工程，然后运行make.sh编译工程
 sudo bash make.sh
 ## 4. 修改demo.py里面的视频路径。
+sudo python3 demo.py  就可以跑起来了
 
 # 训练代码
 ## 直接使用的是voc2007的数据集。
