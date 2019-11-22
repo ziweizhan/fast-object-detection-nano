@@ -20,7 +20,6 @@ import cv2
 import time
 from collections import deque
 from torch2trt import torch2trt
-
 parser = argparse.ArgumentParser(description='Receptive Field Block Net')
 parser.add_argument('--img_dir', default='images', type=str,
                     help='Dir to save results')
@@ -32,7 +31,6 @@ parser.add_argument('--cpu', default=False, type=bool,
                     help='Use cpu nms')
 args = parser.parse_args()
 
-
 cfg = VOC_Config
 img_dim = 300
 num_classes = 2
@@ -43,7 +41,6 @@ with torch.no_grad():
     priors = priorbox.forward()
     if args.cuda:
         priors = priors.cuda()
-
 
 class ObjectDetector:
     def __init__(self, net, detection, transform, num_classes=21, thresh=0.2, cuda=True):
@@ -64,12 +61,8 @@ class ObjectDetector:
                 x = x.cuda()
                 scale = scale.cuda()
         _t['im_detect'].tic()
-
-
-
         out = model_trt(x)  # forward pass
         #print(out)
-
         boxes, scores = self.detection.forward(out, priors)
         detect_time = _t['im_detect'].toc()
         boxes = boxes[0]
@@ -80,7 +73,6 @@ class ObjectDetector:
         scores = scores.cpu().numpy()
         _t['misc'].tic()
         all_boxes = [[] for _ in range(num_classes)]
-
         for j in range(1, num_classes):
             inds = np.where(scores[:, j] > self.thresh)[0]
             if len(inds) == 0:
@@ -92,7 +84,6 @@ class ObjectDetector:
             c_dets = np.hstack((c_bboxes, c_scores[:, np.newaxis])).astype(
                 np.float32, copy=False)
             # keep = nms(c_bboxes,c_scores)
-
             keep = nms(c_dets, 0.2, force_cpu=args.cpu)
             c_dets = c_dets[keep, :]
             all_boxes[j] = c_dets
