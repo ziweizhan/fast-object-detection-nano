@@ -13,6 +13,6 @@ sudo python3 demo.py  就可以跑起来了
 ## 直接使用的是voc2007的数据集。
 sudo python3 train_RFB.py
 
-# 感谢下面两位作者
+# 感谢下面两位作者。
 https://github.com/ruinmessi/RFBNet
 https://github.com/songwsx/RFB-Person
